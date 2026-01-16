@@ -1,6 +1,6 @@
 // intlist.cpp
 // Implements class IntList
-// YOUR NAME(S), AND DATE
+// Beatriz Cruz – Jan 16, 2026
 
 #include "intlist.h"
 
@@ -9,51 +9,119 @@ using std::cout;
 
 // copy constructor
 IntList::IntList(const IntList& source) {
-    //IMPLEMENT THIS
+    head = nullptr;
+    if (source.head == nullptr){
+        return;
+    }
+    head = new Node;
+    head->info = source.head->info;
+    head-> next = nullptr;
+
+    Node* source1= source.head->next;
+    Node* curr = head;
+    while(source1!=nullptr){
+        curr->next = new Node;
+        curr = curr->next;
+        curr->info = source1->info;
+        curr->next = nullptr;
+        source1= source1->next;
+    }
 }
 
 // destructor deletes all nodes
 IntList::~IntList() {
-    //IMPLEMENT THIS
+    Node* curr = head;
+    while(curr != nullptr){
+        Node* next = curr->next;
+        delete curr;
+        curr = next;
+    }
+    head = nullptr;
 }
 
 
 // return sum of values in list
 int IntList::sum() const {
-    return 0; // REPLACE THIS NON-SOLUTION
+   int sum = 0;
+   for (Node*curr = head; curr != nullptr; curr = curr->next){
+    sum += curr->info;
+   }
+   return sum;
 }
 
 // returns true if value is in the list; false if not
 bool IntList::contains(int value) const {
-    return false; // REPLACE THIS NON-SOLUTION
+   for (Node*curr = head; curr != nullptr; curr = curr->next){
+    if (curr->info == value){
+        return true;
+    }
+   }
+   return false;
 }
 
 // returns maximum value in list, or 0 if empty list
 int IntList::max() const {
-    return 0; // REPLACE THIS NON-SOLUTION
+    if(head == nullptr){
+    return 0;
+    }
+    int max = head->info;
+   for (Node*curr = head; curr != nullptr; curr = curr->next){
+    if (curr->info > max){
+        max = curr->info;
+    }
+
+   }
+   return max;
 }
 
 // returns average (arithmetic mean) of all values, or
 // 0 if list is empty
 double IntList::average() const {
-    return 0.0; // REPLACE THIS NON-SOLUTION
+    int tot = 0;
+    int i = 0;
+    for (Node*curr = head; curr != nullptr; curr = curr->next){
+        tot +=curr->info;
+        i++;
+   }
+   if(i==0){
+    return 0.0;
+   }
+   return static_cast<double>(tot) / static_cast<double>(i);
 }
 
 // inserts value as new node at beginning of list
 void IntList::push_front(int value) {
-    // IMPLEMENT
+    Node* newNode = new Node;
+    newNode->info = value;
+    newNode-> next = head;
+    head = newNode;
 }
 
 // append value at end of list
 void IntList::push_back(int value) {
-    // IMPLEMENT
+    Node* newNode = new Node;
+    newNode->info = value;
+    newNode-> next = nullptr;
+    if(head == nullptr){
+        head = newNode;
+        return;
+    }
+
+    Node* curr = head;
+    while(curr->next != nullptr){
+        curr = curr->next;
+    }
+    curr->next = newNode;
  
 }
 
 // return count of values
 int IntList::count() const {
-   //IMPLEMENT THIS
-   return 0;
+   int count = 0;
+   for (Node*curr = head; curr != nullptr; curr = curr->next){
+    count += 1;
+   }
+   return count;
 }
 
 
@@ -66,7 +134,7 @@ IntList& IntList::operator=(const IntList& source){
 
 // constructor sets up empty list
 IntList::IntList(){ 
-    //IMPLEMENT THIS 
+    head = nullptr;
 }
 
 
